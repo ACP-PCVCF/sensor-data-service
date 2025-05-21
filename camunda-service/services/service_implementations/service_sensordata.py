@@ -11,6 +11,11 @@ from models.data_models import SignedTCEData
 from utils.data_utils import convert_sets_to_lists, create_crypto_keys, sign_data
 from utils.logging_utils import log_service_call
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # This is a mock implementation, in production this would be replaced with real data
 CITIES = [
@@ -101,7 +106,9 @@ class SensorDataService:
     
     def __init__(self):
         log_service_call("SensorDataService", "__init__")
-        self.base_url = "http://localhost:8080"
+        host = os.getenv("SENSOR_SERVICE_HOST", "localhost")
+        port = os.getenv("SENSOR_SERVICE_PORT", "8080")
+        self.base_url = f"http://{host}:{port}"
         # Initialize service if needed
 
     def call_service_sensordata(
