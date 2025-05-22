@@ -14,7 +14,7 @@ class SensorResponse(BaseModel):
     shipment_id: str
 
 @app.post("/api/v1/sensor-data", response_model=SensorResponse)
-async def get_sensor_data(req: SensorRequest):
+def get_sensor_data(req: SensorRequest):
     distance = round(random.uniform(10.0, 500.0), 2)
     logging.info(f"Request received: shipment_id={req.shipment_id}, generated distance={distance} km")
 
