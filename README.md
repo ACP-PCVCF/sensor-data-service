@@ -17,7 +17,7 @@ Install Camunda into the camunda namespace (or another of your choice) using you
 
 ```bash
 helm install camunda camunda/camunda-platform \
-  -n camunda --create-namespace \
+  -n proofing-system --create-namespace \
   -f ~/Documents/camunda-platform-core-kind-values.yaml
 ```
 Notes:
@@ -28,7 +28,7 @@ Notes:
 Wait a few minutes for all services to initialize. Then check the status:
 
 ```bash
-kubectl get pods -n camunda
+kubectl get pods -n proofing-system
 ```
 You should see multiple Camunda components like ```camunda-zeebe```, ```camunda-operate```, and others showing ```STATUS: Running```.
 
@@ -38,7 +38,7 @@ If some show ```Pending``` or ```ContainerCreating```, wait until they are fully
 To connect the Camunda Modeler to Zeebe, forward the gateway port:
 
 ```bash
-kubectl port-forward svc/camunda-zeebe-gateway 26500:26500 -n camunda
+kubectl port-forward svc/camunda-zeebe-gateway 26500:26500 -n proofing-system
 ```
 Keep this terminal open while deploying models from the Camunda Modeler.
 
@@ -62,54 +62,39 @@ In the Camunda Modeler:
 To view and manage process instances, forward the Camunda Operate service:
 
 ```bash
-kubectl port-forward svc/camunda-operate 8081:80 -n camunda
+kubectl port-forward svc/camunda-operate 8081:80 -n proofing-system
 ```
 Then open your browser at: http://localhost:8081
 
-## 8. Build Docker Images Before Deploying
-
-Each service (e.g., the Camunda worker or the sensor data service) must be built into a Docker image before it can run in Kubernetes.
+## 8. Build and Load Images in Minikube
+Before deploying, make sure to build your images inside Minikube's Docker context (we don't need to upload to DockerHub with Minikube, we keep the images local):
 
 Kubernetes does not run source code directly, it runs containers that are created from Docker images. That means every time you create a new service or want to deploy one, you first need to build its Docker image.
-
-### Steps:
-
-1. Enter the Minikube Docker context:
-   ```bash
-   eval $(minikube docker-env)
-   ```
-2. Build your image using Docker:
-   ```bash
-   docker build -t sensor-data-service:latest ./sensor-data-service
-   docker build -t camunda-service:latest ./camunda-service
-   ```
-   
-Only after building the image can you deploy it to Kubernetes using ```kubectl apply```.
-
-## 9. Build and Load Images in Minikube
-Before deploying, make sure to build your images inside Minikube's Docker context (we don't need to upload to DockerHub with Minikube, we keep the images local):
 
 ```bash
 eval $(minikube docker-env)
 docker build -t sensor-data-service:latest ./sensor-data-service
 docker build -t camunda-service:latest ./camunda-service
+docker build --platform=linux/amd64 -t proofing-service:latest .
 ```
 Then apply your Kubernetes YAML files (you might need to switch folders):
 
 ```bash
-kubectl apply -f sensor-deployment.yaml -n camunda
-kubectl apply -f camunda-service-deployment.yaml -n camunda
+kubectl apply -f sensor-deployment.yaml -n proofing-system
+kubectl apply -f camunda-service-deployment.yaml -n proofing-system
+kubectl apply -f proofing-service.yaml -n proofing-system
 ```
 Always use -n camunda if you are working outside the default namespace.
 
-## 10. Monitor Logs and Status
+## 9. Monitor Logs and Status
 ```bash
-kubectl get pods -n camunda
-kubectl logs deployment/camunda-service -n camunda
-kubectl logs deployment/sensor-data-service -n camunda
+kubectl get pods -n proofing-system
+kubectl logs deployment/camunda-service -n proofing-system
+kubectl logs deployment/sensor-data-service -n proofing-system
+kubectl logs deployment/proofing-service -n proofing-system
 ```
 
-## 11. Update Docker Images After Code Changes
+## 10. Update Docker Images After Code Changes
 
 If you change the code in one of your services (e.g., the Camunda worker or sensor service), you must rebuild the corresponding Docker image.
 
