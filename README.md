@@ -77,6 +77,10 @@ Before deploying, make sure to build your images inside Minikube's Docker contex
 
 Kubernetes does not run source code directly, it runs containers that are created from Docker images. That means every time you create a new service or want to deploy one, you first need to build its Docker image.
 
+Make sure that the commands have to be executed in the right folder of the dedicated repository.
+
+If you use a Macbook that is based on an ARM64 architecture ((M1, M2, M3, M4) make sure to add ```--platform=linux/amd64``` to build your proofing-service Dockerfile (see below). The Risc Zero Toolchain doesn't support ```linux/aarch64``` but only can installed on ```linux/amd64``` platforms.
+
 ```bash
 eval $(minikube docker-env)
 docker build -t sensor-data-service:latest ./sensor-data-service
