@@ -61,7 +61,8 @@ In the Camunda Modeler:
 - Authentication: None
 
 4. Click Deploy Current Diagram.
-5. Start process instances.
+   
+5. Start process instances (only after you deployed the other Microservices to the Cluster).
 
 ## 7. Access Camunda Operate
 To view and manage process instances, forward the Camunda Operate service:
