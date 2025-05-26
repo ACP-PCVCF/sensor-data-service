@@ -24,6 +24,11 @@ Notes:
 - If you do not use the default namespace, you must always include -n camunda (or your chosen namespace) in kubectl commands.
 - The YAML configuration file should be available locally or from your cloud storage. Adjust the path if needed.
 
+Sidenote: to uninstall use
+```bash
+helm uninstall camunda -n proofing-system
+```
+
 ## 4. Verify Camunda Installation
 Wait a few minutes for all services to initialize. Then check the status:
 
@@ -84,7 +89,7 @@ kubectl apply -f sensor-deployment.yaml -n proofing-system
 kubectl apply -f camunda-service-deployment.yaml -n proofing-system
 kubectl apply -f proofing-service.yaml -n proofing-system
 ```
-Always use -n camunda if you are working outside the default namespace.
+Always use -n proofing-system (or the name that you chose) if you are working outside the default namespace.
 
 ## 9. Monitor Logs and Status
 ```bash
@@ -114,3 +119,9 @@ Kubernetes uses the image specified in your deployment YAML, so the container wi
    ```bash
    kubectl rollout restart deployment camunda-service -n camunda
    ```
+## 11. Delete deployments or services
+
+```bash
+kubectl delete deployment proofing-service -n proofing-system
+kubectl delete service proofing-service -n proofing-system
+```
