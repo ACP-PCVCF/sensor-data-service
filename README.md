@@ -117,7 +117,7 @@ Kubernetes uses the image specified in your deployment YAML, so the container wi
    ```
 3. Restart the deployment to use the updated image:
    ```bash
-   kubectl rollout restart deployment camunda-service -n camunda
+   kubectl rollout restart deployment camunda-service -n proofing-system
    ```
 ## 11. Delete deployments or services
 
