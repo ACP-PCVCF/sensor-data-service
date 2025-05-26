@@ -83,8 +83,8 @@ If you use a Macbook that is based on an ARM64 architecture ((M1, M2, M3, M4) ma
 
 ```bash
 eval $(minikube docker-env)
-docker build -t sensor-data-service:latest ./sensor-data-service
-docker build -t camunda-service:latest ./camunda-service
+docker build -t sensor-data-service:latest .
+docker build -t camunda-service:latest .
 docker build --platform=linux/amd64 -t proofing-service:latest .
 ```
 Then apply your Kubernetes YAML files (you might need to switch folders):
