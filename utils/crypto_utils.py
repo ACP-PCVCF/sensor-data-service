@@ -19,4 +19,5 @@ def sign_data(data: dict, private_key) -> str:
         padding.PKCS1v15(),
         hashes.SHA256()
     )
+    logger.info(f"Signed sensor with PKCS1v15: {base64.b64encode(signature).decode("utf-8")}")
     return base64.b64encode(signature).decode("utf-8")
