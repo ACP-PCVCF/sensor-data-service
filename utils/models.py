@@ -15,8 +15,7 @@ class TceSensorData(BaseModel):
     camundaActivityId: str
     sensorkey: str
     signedSensorData: str
-    sensorData: str
-    #sensorData: SensorData
+    sensorData: SensorData
 
 class SensorRequest(BaseModel):
     shipment_id: str
