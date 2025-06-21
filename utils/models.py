@@ -17,6 +17,7 @@ class TceSensorData(BaseModel):
     signedSensorData: str
     sensorData: str
     #sensorData: SensorData
+    sensorDataHash: str
 
 class SensorRequest(BaseModel):
     shipment_id: str

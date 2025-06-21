@@ -4,7 +4,7 @@ import json
 from fastapi import FastAPI
 from cryptography.hazmat.primitives import serialization
 from utils.models import TceSensorData, SensorRequest, Distance, SensorData
-from utils.crypto_utils import load_private_key, sign_data, get_all_private_key_paths, generate_keys_if_missing
+from utils.crypto_utils import load_private_key, sign_data, get_all_private_key_paths, generate_keys_if_missing, generate_hash
 from utils.config import logger
 
 app = FastAPI()
@@ -32,11 +32,14 @@ def post_sensor_data(req: SensorRequest):
 
     sensor_data = SensorData(distance=Distance(actual=distance_val))
     sensor_data_dump = json.dumps(sensor_data.dict(), sort_keys=True, separators=(',', ':'))
-    signature = sign_data(sensor_data_dump, private_key)
+    sensor_data_dump_hash = generate_hash(sensor_data_dump)
+    #signature = sign_data(sensor_data_dump, private_key)
+    signature = sign_data(sensor_data_dump_hash, private_key)
     public_key_pem = public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     ).decode("utf-8")
+    hash = generate_hash(sensor_data_dump)
 
     logger.info("Sensor data signed successfully.")
     logger.info("Returning signed sensor data...")
@@ -48,5 +51,6 @@ def post_sensor_data(req: SensorRequest):
         sensorkey=public_key_pem,
         signedSensorData=signature,
         #sensorData=sensor_data
-        sensorData=sensor_data_dump
+        sensorData=sensor_data_dump,
+        sensorDataHash=sensor_data_dump_hash
     )

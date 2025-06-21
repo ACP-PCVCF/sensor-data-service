@@ -29,6 +29,11 @@ def sign_data(data: str, private_key) -> str:
     logger.info(f"Signed sensor data with PKCS1v15: {base64.b64encode(signature).decode("utf-8")}")
     return base64.b64encode(signature).decode("utf-8")
 
+def generate_hash(data: str) -> str:
+    digest = hashes.Hash(hashes.SHA256())
+    digest.update(data.encode("utf-8"))
+    return base64.b64encode(digest.finalize()).decode("utf-8")
+
 def generate_keys_if_missing():
     os.makedirs(KEY_DIR, exist_ok=True)
 
