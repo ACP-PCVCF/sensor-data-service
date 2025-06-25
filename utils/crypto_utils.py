@@ -1,6 +1,8 @@
 import os
 import json
 import base64
+import string
+import secrets
 
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
@@ -8,6 +10,11 @@ from utils.config import logger, KEY_DIR
 
 KEY_DIR = "keys"
 NUM_KEYS = 5 
+
+def generate_random_string(length: int = 32) -> str:
+    alphabet = string.ascii_letters + string.digits
+    result = ''.join(secrets.choice(alphabet) for i in range(length))
+    return result
 
 def load_private_key(path: str):
     logger.info(f"Loading private key from: {path}")
