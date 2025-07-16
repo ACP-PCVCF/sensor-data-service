@@ -130,3 +130,17 @@ Kubernetes uses the image specified in your deployment YAML, so the container wi
 kubectl delete deployment proving-service -n proving-system
 kubectl delete service proving-service -n proving-system
 ```
+
+## 12. Vehicle Sensor Simulation Service
+
+This service simulates real-world vehicle sensors for demonstration purposes only. In a real-world scenario, you would connect directly to actual vehicle sensors rather than using this simulation service.
+
+### Why We're Using Simulation:
+
+- Created for demonstration purposes due to lack of access to real vehicle sensors
+- In production, this service would be replaced with direct integration to actual vehicle telemetry systems
+
+### Important Security Notice:
+
+- This demo uses embedded private keys for simplicity
+- These keys could be exposed publicly, creating unacceptable security risks
