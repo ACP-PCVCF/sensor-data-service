@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  sensor-data-service:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-08-15T21:33:55.569936244Z"
+    description: A Helm chart for the sensor-data-service microservice
+    digest: 9f0cfbfb3f9de12e8ad2e7fb079821c57f860f434517eeb5ff9e6de0bd65ea70
+    name: sensor-data-service
+    type: application
+    urls:
+    - https://github.com/ACP-PCVCF/sensor-data-service/releases/download/sensor-data-service-0.1.1/sensor-data-service-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-08-15T21:33:55.569945461Z"
